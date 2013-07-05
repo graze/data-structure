@@ -1,0 +1,19 @@
+{
+    "name": "graze/data-structure",
+    "description": "Common data structures",
+    "keywords": ["collection", "container", "parameters", "data", "structure"],
+    "homepage": "https://github.com/graze/data-structure",
+
+    "version": "0.1.0",
+
+    "autoload": {
+        "psr-0": {
+            "Graze\\DataStructure": "./lib"
+        }
+    },
+
+    "require-dev": {
+        "mockery/mockery": "~0.8.0",
+        "phpunit/phpunit": "~3.7.21"
+    }
+}
