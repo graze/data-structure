@@ -70,7 +70,7 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
      */
     public function map(\Closure $closure)
     {
-        return array_map($closure, $this->products);
+        return array_map($closure, $this->items);
     }
 
     /**
@@ -79,8 +79,8 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
      */
     public function sort(\Closure $closure)
     {
-        @usort($this->products, $closure);
-        return $this->products;
+        @usort($this->items, $closure);
+        return $this->items;
     }
 
     /**
