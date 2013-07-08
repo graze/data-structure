@@ -7,6 +7,11 @@ use OutOfBoundsException;
 class Container implements ArrayInterface, ContainerInterface, \Serializable
 {
     /**
+     * @var array
+     */
+    protected $parameters = array();
+
+    /**
      * @param array $parameters
      */
     public function __construct(array $parameters = array())

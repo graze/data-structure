@@ -9,7 +9,7 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
     /**
      * @var array
      */
-    protected $items;
+    protected $items = array();
 
     /**
      * @param array $items
