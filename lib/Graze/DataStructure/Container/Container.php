@@ -1,6 +1,7 @@
 <?php
 namespace Graze\DataStructure\Container;
 
+use ArrayIterator;
 use Graze\DataStructure\ArrayInterface;
 use OutOfBoundsException;
 
@@ -40,7 +41,7 @@ class Container implements ArrayInterface, ContainerInterface, \Serializable
      */
     public function get($key)
     {
-        return $this->has($key) ? $this->parameters[$key] ? null;
+        return $this->has($key) ? $this->parameters[$key] : null;
     }
 
     /**
@@ -69,6 +70,14 @@ class Container implements ArrayInterface, ContainerInterface, \Serializable
         if ($this->has([$key])) {
             unset($this->parameters[$key]);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->parameters);
     }
 
     /**
