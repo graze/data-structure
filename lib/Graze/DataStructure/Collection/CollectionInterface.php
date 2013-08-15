@@ -15,6 +15,11 @@ interface CollectionInterface extends \Countable, \IteratorAggregate
     public function contains($value);
 
     /**
+     * return array
+     */
+    public function getAll();
+
+    /**
      * @param Closure $closure
      * @return array
      */

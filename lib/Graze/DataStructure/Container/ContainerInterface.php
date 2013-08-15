@@ -16,6 +16,11 @@ interface ContainerInterface extends \IteratorAggregate
     public function get($key);
 
     /**
+     * return array
+     */
+    public function getAll();
+
+    /**
      * @param string $key
      * @return boolean
      */

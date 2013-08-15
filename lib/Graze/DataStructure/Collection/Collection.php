@@ -1,10 +1,9 @@
 <?php
 namespace Graze\DataStructure\Collection;
 
-use Graze\DataStructure\ArrayInterface;
 use ArrayIterator;
 
-class Collection implements ArrayInterface, CollectionInterface, \Serializable
+class Collection implements CollectionInterface, \Serializable
 {
     /**
      * @var array
@@ -57,6 +56,14 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
     }
 
     /**
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->items;
+    }
+
+    /**
      * @return Iterator
      */
     public function getIterator()
@@ -91,14 +98,6 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
     public function sort(\Closure $closure)
     {
         @usort($this->items, $closure);
-        return $this->items;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
         return $this->items;
     }
 
