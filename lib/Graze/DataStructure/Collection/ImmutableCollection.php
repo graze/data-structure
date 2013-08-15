@@ -49,4 +49,16 @@ class ImmutableCollection extends Collection
     {
         return array_reduce($this->items, $closure);
     }
+
+    /**
+     * @param Closure $closure
+     * @return array
+     */
+    public function sort(\Closure $closure)
+    {
+        $items = $this->items;
+        @usort($items, $closure);
+
+        return $items;
+    }
 }
