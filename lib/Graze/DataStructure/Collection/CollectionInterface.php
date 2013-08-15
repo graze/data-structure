@@ -28,6 +28,12 @@ interface CollectionInterface extends \Countable, \IteratorAggregate
 
     /**
      * @param Closure $callable
+     * return CollectionInterface
+     */
+    public function reduce(\Closure $callable);
+
+    /**
+     * @param Closure $callable
      * @return array
      */
     public function sort(\Closure $callable);

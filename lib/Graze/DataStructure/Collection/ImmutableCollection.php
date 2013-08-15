@@ -25,10 +25,28 @@ class ImmutableCollection extends Collection
 
     /**
      * @param Closure $closure
-     * @return CollectionInterface
+     * @return array
      */
     public function filter(\Closure $closure)
     {
-        return new Collection(array_filter($this->items, $closure));
+        return array_filter($this->items, $closure);
+    }
+
+    /**
+     * @param Closure $closure
+     * @return array
+     */
+    public function map(\Closure $closure)
+    {
+        return array_map($this->items, $closure);
+    }
+
+    /**
+     * @param Closure $closure
+     * @return array
+     */
+    public function reduce(\Closure $closure)
+    {
+        return array_reduce($this->items, $closure);
     }
 }

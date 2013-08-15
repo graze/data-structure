@@ -48,12 +48,12 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
 
     /**
      * @param Closure $closure
-     * @return CollectionInterface
+     * @return array
      */
     public function filter(\Closure $closure)
     {
         $this->items = array_filter($this->items, $closure);
-        return $this;
+        return $this->items;
     }
 
     /**
@@ -70,7 +70,18 @@ class Collection implements ArrayInterface, CollectionInterface, \Serializable
      */
     public function map(\Closure $closure)
     {
-        return array_map($closure, $this->items);
+        $this->items = array_map($closure, $this->items);
+        return $this->items;
+    }
+
+    /**
+     * @param Closure $closure
+     * @return array
+     */
+    public function reduce(\Closure $closure)
+    {
+        $this->items = array_reduce($this->items, $closure);
+        return $this->items;
     }
 
     /**
