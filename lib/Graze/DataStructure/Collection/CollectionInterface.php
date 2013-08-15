@@ -15,26 +15,26 @@ interface CollectionInterface extends \Countable, \IteratorAggregate
     public function contains($value);
 
     /**
-     * @param Closure $callable
+     * @param Closure $closure
      * @return array
      */
-    public function filter(\Closure $callable);
+    public function filter(\Closure $closure);
 
     /**
-     * @param Closure $callable
+     * @param Closure $closure
      * @return array
      */
-    public function map(\Closure $callable);
+    public function map(\Closure $closure);
 
     /**
-     * @param Closure $callable
+     * @param Closure $closure
      * return CollectionInterface
      */
-    public function reduce(\Closure $callable);
+    public function reduce(\Closure $closure);
 
     /**
-     * @param Closure $callable
+     * @param Closure $closure
      * @return array
      */
-    public function sort(\Closure $callable);
+    public function sort(\Closure $closure);
 }
