@@ -1,7 +1,7 @@
 {
     "name": "graze/data-structure",
     "description": "Common data structures",
-    "keywords": ["collection", "container", "parameters", "data", "structure"],
+    "keywords": ["array", "collection", "container", "data", "filter", "map", "parameters", "reduce", "reduce", "structure"],
     "homepage": "https://github.com/graze/data-structure",
 
     "version": "0.1.0",
