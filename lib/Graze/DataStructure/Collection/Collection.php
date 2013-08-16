@@ -77,8 +77,7 @@ class Collection implements CollectionInterface, \Serializable
      */
     public function map(\Closure $closure)
     {
-        $this->items = array_map($closure, $this->items);
-        return $this->items;
+        return array_map($closure, $this->items);
     }
 
     /**
@@ -87,8 +86,7 @@ class Collection implements CollectionInterface, \Serializable
      */
     public function reduce(\Closure $closure)
     {
-        $this->items = array_reduce($this->items, $closure);
-        return $this->items;
+        return array_reduce($this->items, $closure);
     }
 
     /**
