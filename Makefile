@@ -1,3 +1,5 @@
+.PHONY: all install tests
+
 # Default task
 all: install
 
@@ -14,4 +16,4 @@ tests-unit:
 
 # Run the unit tests
 tests-unit-coverage:
-	@./vendor/bin/phpunit --testsuite unit --coverage-text --coverage-html ./.report
+	@./vendor/bin/phpunit --testsuite unit --coverage-text --coverage-html ./tests/report

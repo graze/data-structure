@@ -3,7 +3,7 @@
     <!-- Test suites -->
     <testsuites>
         <testsuite name="unit">
-            <directory suffix="Test.php">./test/unit</directory>
+            <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
     </testsuites>
 
@@ -13,10 +13,5 @@
             <directory>./lib</directory>
         </whitelist>
     </filter>
-
-    <!-- Listeners -->
-    <listeners>
-        <listener class="Mockery\Adapter\Phpunit\TestListener"/>
-    </listeners>
 
 </phpunit>

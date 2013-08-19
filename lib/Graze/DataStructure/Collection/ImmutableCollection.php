@@ -8,10 +8,10 @@ class ImmutableCollection extends Collection
     /**
      * @param array $items
      */
-    public function __construct(array $items)
+    public function __construct(array $items = array())
     {
         foreach ($items as $item) {
-            parent::add($item);
+            $this->items[] = $item;
         }
     }
 
@@ -29,7 +29,7 @@ class ImmutableCollection extends Collection
      */
     public function filter(\Closure $closure)
     {
-        return array_filter($this->items, $closure);
+        return array_values(array_filter($this->items, $closure));
     }
 
     /**
@@ -38,7 +38,7 @@ class ImmutableCollection extends Collection
      */
     public function map(\Closure $closure)
     {
-        return array_map($this->items, $closure);
+        return array_map($closure, $this->items);
     }
 
     /**

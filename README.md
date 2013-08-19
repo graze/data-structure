@@ -1,52 +1,71 @@
 # Data Structures #
 
-**Version:** *0.1.0*
+**Version:** *0.1.0*<br/>
+**Master build:** [![Master branch build status][travis-master]][travis]
 
-This is a library of common data structures, currently implementing Collections and Containers.<br/>
-It can be installed in whichever way you prefer, but we recommend Composer.
+This library implements common data structures in PHP.</br>
+It can be installed in whichever way you prefer, but we recommend [Composer][packagist].
 ```json
 {
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:graze/data-structure.git"
-        }
-    ],
-
     "require": {
-        "graze/data-structure": "dev-master"
+        "graze/data-structure": "~0.1.0"
     }
 }
 ```
 
-### Collection ###
+### Basic usage ###
 ```php
 <?php
 use Graze\DataStructure\Collection\Collection;
-
-$collection = new Collection(array('a', 'b', 'c'));
-$collection->add('d');
-$collection->contains('a');
-$collection->filter(function($value) {
-    // Just like array_filter with a closure
-});
-$collection->map(function($value) {
-    // Just like array_map
-});
-$collection->sort(function($value) {
-    // Just like usort
-});
-```
-
-### Container ###
-```php
-<?php
 use Graze\DataStructure\Container\Container;
 
-$container = new Container(array('a' => 1, 'b' => 2, 'c' => 3));
-$container->add('d', 4);
-$container->has('a');
-$container->get('a');
-$container->set('a', 1.1);
-$container->remove('a');
+// Collection
+$collection = new Collection(array('foo', 'bar'));
+$collection->add('baz');
+$collection->contains('baz');
+$collection->getAll();
+$collection->filter(function($val){});
+$collection->map(function($val){});
+$collection->reduce(function($val){});
+$collection->sort(function($x, $y){});
+
+// Container
+$container = new Container(array('foo' => 0, 'bar' => 1));
+$container->add('baz', 2);
+$container->has('baz');
+$container->get('baz');
+$container->set('bam', 3);
+$container->remove('bam');
 ```
+
+
+### Contributing ###
+We accept contributions to the source via Pull Request,
+but passing unit tests must be included before it will be considered for merge.
+```bash
+$ make install
+$ make tests
+```
+
+If you have [Vagrant][vagrant] installed, you can build our dev environment to assist development.
+The repository will be mounted in `/srv`.
+```bash
+$ vagrant up
+$ vagrant ssh
+
+Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic x86_64)
+$ cd /srv
+```
+
+
+### License ###
+The content of this library is released under the **MIT License** by **Nature Delivered Ltd**.<br/>
+You can find a copy of this license at http://www.opensource.org/licenses/mit or in [`LICENSE`][license]
+
+
+<!-- Links -->
+[travis]: https://travis-ci.org/graze/data-structure
+[travis-master]: https://travis-ci.org/graze/data-structure.png?branch=master
+[packagist]: https://packagist.org/packages/graze/data-structure
+[vagrant]:   http://vagrantup.com
+[license]:   /LICENSE

@@ -11,7 +11,7 @@ class ImmutableContainer extends Container
     public function __construct(array $parameters = array())
     {
         foreach ($parameters as $key => $value) {
-            parent::add($key, $value);
+            $this->parameters[$key] = $value;
         }
     }
 

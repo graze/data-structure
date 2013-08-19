@@ -48,7 +48,7 @@ class Container implements ContainerInterface, \Serializable
      */
     public function getAll()
     {
-        return $this->items;
+        return $this->parameters;
     }
 
     /**

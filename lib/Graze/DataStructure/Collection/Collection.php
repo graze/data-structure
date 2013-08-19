@@ -51,7 +51,7 @@ class Collection implements CollectionInterface, \Serializable
      */
     public function filter(\Closure $closure)
     {
-        $this->items = array_filter($this->items, $closure);
+        $this->items = array_values(array_filter($this->items, $closure));
         return $this->items;
     }
 
