@@ -1,4 +1,15 @@
 <?php
+/*
+ * This file is part of Data Structure
+ *
+ * Copyright (c) 2013 Nature Delivered Ltd. <http://graze.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see  http://github.com/graze/DataStructure/blob/master/LICENSE
+ * @link http://github.com/graze/DataStructure
+ */
 namespace Graze\DataStructure\Collection;
 
 use LogicException;
