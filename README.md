@@ -27,7 +27,7 @@ $collection->contains('baz');
 $collection->getAll();
 $collection->filter(function($val){});
 $collection->map(function($val){});
-$collection->reduce(function($val){});
+$collection->reduce(function($res, $val){});
 $collection->sort(function($x, $y){});
 
 // Container
