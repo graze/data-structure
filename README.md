@@ -1,10 +1,10 @@
 # Data Structures #
 
 **Version:** *0.1.0*<br/>
-**Master build:** [![Master branch build status][travis-master]][travis]</br>
+**Master build:** [![Master branch build status][travis-master]][travis]<br/>
 **Develop build:** [![Develop branch build status][travis-develop]][travis]
 
-This library implements common data structures in PHP.</br>
+This library implements common data structures in PHP.<br/>
 It can be installed in whichever way you prefer, but we recommend [Composer][packagist].
 ```json
 {
@@ -65,9 +65,9 @@ You can find a copy of this license at http://www.opensource.org/licenses/mit or
 
 
 <!-- Links -->
-[travis]: https://travis-ci.org/graze/data-structure
-[travis-master]: https://travis-ci.org/graze/data-structure.png?branch=master
-[travis-develop]: https://travis-ci.org/graze/data-structure.png?branch=develop
+[travis]: https://travis-ci.org/graze/DataStructure
+[travis-master]: https://travis-ci.org/graze/DataStructure.png?branch=master
+[travis-develop]: https://travis-ci.org/graze/DataStructure.png?branch=develop
 [packagist]: https://packagist.org/packages/graze/data-structure
 [vagrant]:   http://vagrantup.com
 [license]:   /LICENSE
