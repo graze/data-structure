@@ -93,11 +93,12 @@ class Collection implements CollectionInterface, \Serializable
 
     /**
      * @param Closure $closure
+     * @param mixed $initial
      * @return array
      */
-    public function reduce(\Closure $closure)
+    public function reduce(\Closure $closure, $initial = null)
     {
-        return array_reduce($this->items, $closure);
+        return array_reduce($this->items, $closure, $initial);
     }
 
     /**

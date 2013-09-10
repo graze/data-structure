@@ -73,6 +73,16 @@ class ImmutableCollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->items, $this->collection->getAll());
     }
 
+    public function testReduceWithInitialValue()
+    {
+        $this->assertSame('_foobar', $this->collection->reduce(function($result, $value) {
+            $result .= $value;
+            return $result;
+        }, '_'));
+
+        $this->assertSame($this->items, $this->collection->getAll());
+    }
+
     public function testSort()
     {
         $this->assertSame(array('bar', 'foo'), $this->collection->sort(function($a, $b) {

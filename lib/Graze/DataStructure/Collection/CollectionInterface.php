@@ -44,9 +44,10 @@ interface CollectionInterface extends \Countable, \IteratorAggregate
 
     /**
      * @param Closure $closure
+     * @param mixed $initial
      * return CollectionInterface
      */
-    public function reduce(\Closure $closure);
+    public function reduce(\Closure $closure, $initial = null);
 
     /**
      * @param Closure $closure
