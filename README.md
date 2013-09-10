@@ -1,6 +1,6 @@
 # Data Structures #
 
-**Version:** *0.1.0*<br/>
+**Version:** *0.1.1*<br/>
 **Master build:** [![Master branch build status][travis-master]][travis]<br/>
 **Develop build:** [![Develop branch build status][travis-develop]][travis]
 
@@ -9,7 +9,7 @@ It can be installed in whichever way you prefer, but we recommend [Composer][pac
 ```json
 {
     "require": {
-        "graze/data-structure": "~0.1.0"
+        "graze/data-structure": "~0.1.1"
     }
 }
 ```
