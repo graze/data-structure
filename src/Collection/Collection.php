@@ -1,28 +1,30 @@
 <?php
 /*
- * This file is part of Data Structure
+ * This file is part of Graze DataStructure
  *
- * Copyright (c) 2013 Nature Delivered Ltd. <http://graze.com>
+ * Copyright (c) 2014 Nature Delivered Ltd. <http://graze.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @see  http://github.com/graze/DataStructure/blob/master/LICENSE
- * @link http://github.com/graze/DataStructure
+ * @see  http://github.com/graze/data-structure/blob/master/LICENSE
+ * @link http://github.com/graze/data-structure
  */
 namespace Graze\DataStructure\Collection;
 
 use ArrayIterator;
+use Graze\Sort;
+use Serializable;
 
-class Collection implements CollectionInterface, \Serializable
+class Collection implements CollectionInterface, Serializable
 {
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $items = array();
 
     /**
-     * @param array $items
+     * @param mixed[] $items
      */
     public function __construct(array $items = array())
     {
@@ -32,16 +34,17 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @param mixed $value
+     * {@inheritdoc}
      */
     public function add($value)
     {
         $this->items[] = $value;
+
+        return $this;
     }
 
     /**
-     * @param mixed $value
-     * @return boolean
+     * {@inheritdoc}
      */
     public function contains($value)
     {
@@ -49,7 +52,7 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @return integer
+     * {@inheritdoc}
      */
     public function count()
     {
@@ -57,17 +60,17 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @param Closure $closure
-     * @return array
+     * {@inheritdoc}
      */
-    public function filter(\Closure $closure)
+    public function filter($fn)
     {
-        $this->items = array_values(array_filter($this->items, $closure));
-        return $this->items;
+        $this->items = array_values(array_filter($this->items, $fn));
+
+        return $this;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -75,7 +78,7 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @return Iterator
+     * {@inheritdoc}
      */
     public function getIterator()
     {
@@ -83,36 +86,43 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @param Closure $closure
-     * @return array
+     * {@inheritdoc}
      */
-    public function map(\Closure $closure)
+    public function map($fn)
     {
-        return array_map($closure, $this->items);
+        return array_map($fn, $this->items);
     }
 
     /**
-     * @param Closure $closure
-     * @param mixed $initial
-     * @return array
+     * {@inheritdoc}
      */
-    public function reduce(\Closure $closure, $initial = null)
+    public function reduce($fn, $initial = null)
     {
-        return array_reduce($this->items, $closure, $initial);
+        return array_reduce($this->items, $fn, $initial);
     }
 
     /**
-     * @param Closure $closure
-     * @return array
+     * {@inheritdoc}
      */
-    public function sort(\Closure $closure)
+    public function sort($fn)
     {
-        @usort($this->items, $closure);
-        return $this->items;
+        usort($this->items, $fn);
+
+        return $this;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
+     */
+    public function sortOn($fn, $order = Sort\ASC)
+    {
+        $this->items = Sort\comparison($this->items, $fn, $order);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function serialize()
     {
@@ -120,7 +130,7 @@ class Collection implements CollectionInterface, \Serializable
     }
 
     /**
-     * @param string $data
+     * {@inheritdoc}
      */
     public function unserialize($data)
     {
