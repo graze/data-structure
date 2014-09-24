@@ -2,7 +2,7 @@
 
 **Master build:** [![Master branch build status][travis-master]][travis]
 
-This library implements common data structures in PHP.
+This library implements common data collections and containers in PHP.
 
 It can be installed in whichever way you prefer, but we recommend [Composer][packagist].
 ```json
@@ -48,14 +48,14 @@ $container->remove('bam');
 use Graze\DataStructure\Collection\ImmutableCollection;
 use Graze\DataStructure\Container\ImmutableContainer;
 
-// Collection
+// Immutable collection
 $collection = new ImmutableCollection(array('foo', 'bar'));
 $collection = $collection->add('baz');
 $collection = $collection->filter(function ($item) {});
 $collection = $collection->sort(function ($itemA, $itemB) {});
 $collection = $collection->sortOn(function ($item) {});
 
-// Container
+// Immutable container
 $container = new ImmutableContainer(array('foo'=>0, 'bar'=>1));
 $container = $container->add('baz', 2);
 $container = $container->set('bam', 3);
