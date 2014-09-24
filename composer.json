@@ -1,18 +1,38 @@
 {
     "name": "graze/data-structure",
-    "description": "Common data structures",
-    "keywords": ["array", "collection", "container", "data", "filter", "map", "parameters", "reduce", "reduce", "structure"],
-    "homepage": "https://github.com/graze/DataStructure",
-
-    "version": "0.1.1",
-
+    "description": "Data collections and containers",
+    "homepage": "https://github.com/graze/data-structure",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "array",
+        "collection",
+        "container",
+        "data",
+        "filter",
+        "map",
+        "parameters",
+        "reduce",
+        "reduce",
+        "structure"
+    ],
+    "authors": [
+        {
+            "name": "Graze tech team",
+            "homepage": "https://github.com/graze/data-structure/graphs/contributors"
+        }
+    ],
     "autoload": {
-        "psr-0": {
-            "Graze\\DataStructure": "./lib"
+        "psr-4": {
+            "Graze\\DataStructure\\": "src"
         }
     },
-
+    "require": {
+        "php": ">=5.3",
+        "graze/sort": "~2.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "~3.7.21"
+        "adlawson/timezone": "~1.0",
+        "phpunit/phpunit": "~4.0"
     }
 }
