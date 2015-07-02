@@ -1,6 +1,21 @@
 # DataStructure
 
-**Master build:** [![Master branch build status][travis-master]][travis]
+[![Build status][ico-build]][travis]
+[![Latest Version][ico-package]][packagist]
+[![PHP ~5.3][ico-engine]][lang]
+[![MIT Licensed][ico-license]][license]
+
+<!-- Links -->
+[travis]: https://travis-ci.org/graze/data-structure
+[packagist]: https://packagist.org/packages/graze/data-structure
+[lang]: https://secure.php.net
+[license]: https://github.com/graze/data-structure/blob/master/LICENSE
+
+<!-- Images -->
+[ico-build]: https://travis-ci.org/graze/data-structure.png?branch=master
+[ico-package]: https://img.shields.io/packagist/v/graze/data-structure.svg
+[ico-engine]: https://img.shields.io/badge/php-%3E%3D5.3-8892BF.svg
+[ico-license]: https://img.shields.io/packagist/l/graze/data-structure.svg
 
 This library implements common data collections and containers in PHP.
 
@@ -86,8 +101,4 @@ The content of this library is released under the **MIT License** by
 http://www.opensource.org/licenses/mit or in [`LICENSE`][license].
 
 <!-- Links -->
-[travis]: https://travis-ci.org/graze/data-structure
-[travis-master]: https://travis-ci.org/graze/data-structure.png?branch=master
-[packagist]: https://packagist.org/packages/graze/data-structure
 [vagrant]: http://vagrantup.com
-[license]: LICENSE
