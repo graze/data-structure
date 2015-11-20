@@ -22,12 +22,12 @@ class Collection implements CollectionInterface, Serializable
     /**
      * @var mixed[]
      */
-    protected $items = array();
+    protected $items = [];
 
     /**
      * @param mixed[] $items
      */
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         foreach ($items as $item) {
             $this->add($item);

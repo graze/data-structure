@@ -18,7 +18,7 @@ class ImmutableContainer extends Container
     /**
      * @param array $params
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         foreach ($params as $key => $value) {
             $this->setParameter($key, $value);
