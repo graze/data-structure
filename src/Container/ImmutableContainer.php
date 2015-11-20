@@ -10,6 +10,7 @@
  * @see  http://github.com/graze/data-structure/blob/master/LICENSE
  * @link http://github.com/graze/data-structure
  */
+
 namespace Graze\DataStructure\Container;
 
 class ImmutableContainer extends Container
@@ -53,6 +54,7 @@ class ImmutableContainer extends Container
     /**
      * @param string $key
      * @param mixed $value
+     *
      * @return CollectionInterface
      */
     protected function setParameter($key, $value)

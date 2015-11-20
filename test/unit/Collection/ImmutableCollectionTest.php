@@ -1,8 +1,9 @@
 <?php
+
 namespace Graze\DataStructure\Collection;
 
-use PHPUnit_Framework_TestCase as TestCase;
 use Graze\Sort as s;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class ImmutableCollectionTest extends TestCase
 {
