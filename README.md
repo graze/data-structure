@@ -19,6 +19,7 @@
 [ico-engine]: https://img.shields.io/badge/php-%3E%3D5.3-8892BF.svg
 [ico-license]: https://img.shields.io/packagist/l/graze/data-structure.svg
 [ico-quality]: https://img.shields.io/scrutinizer/g/graze/data-structure.svg
+[![StyleCI](https://styleci.io/repos/11204162/shield)](https://styleci.io/repos/11204162)
 
 This library implements common data collections and containers in PHP.
 
