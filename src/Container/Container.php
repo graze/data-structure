@@ -10,6 +10,7 @@
  * @see  http://github.com/graze/data-structure/blob/master/LICENSE
  * @link http://github.com/graze/data-structure
  */
+
 namespace Graze\DataStructure\Container;
 
 use ArrayIterator;

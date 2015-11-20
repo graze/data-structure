@@ -10,6 +10,7 @@
  * @see  http://github.com/graze/data-structure/blob/master/LICENSE
  * @link http://github.com/graze/data-structure
  */
+
 namespace Graze\DataStructure\Container;
 
 use Graze\DataStructure\Exception\RegisteredKeyException;
@@ -20,8 +21,10 @@ interface ContainerInterface extends IteratorAggregate
     /**
      * @param string $key
      * @param mixed $value
-     * @return ContainerInterface
+     *
      * @throws RegisteredKeyException If value with `$key` is already registered
+     *
+     * @return ContainerInterface
      */
     public function add($key, $value);
 
@@ -32,6 +35,7 @@ interface ContainerInterface extends IteratorAggregate
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
     public function get($key);
@@ -43,19 +47,22 @@ interface ContainerInterface extends IteratorAggregate
 
     /**
      * @param string $key
-     * @return boolean
+     *
+     * @return bool
      */
     public function has($key);
 
     /**
      * @param string $key
      * @param mixed $value
+     *
      * @return ContainerInterface
      */
     public function set($key, $value);
 
     /**
      * @param string $key
+     *
      * @return ContainerInterface
      */
     public function remove($key);

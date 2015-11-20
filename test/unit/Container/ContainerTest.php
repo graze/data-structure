@@ -1,8 +1,9 @@
 <?php
+
 namespace Graze\DataStructure\Container;
 
-use PHPUnit_Framework_TestCase as TestCase;
 use Graze\Sort as s;
+use PHPUnit_Framework_TestCase as TestCase;
 
 class ContainerTest extends TestCase
 {
@@ -16,7 +17,7 @@ class ContainerTest extends TestCase
 
     public function testConstructor()
     {
-        $params = array('foo'=>'a', 'bar'=>'b', 'baz'=>'c');
+        $params = array('foo' => 'a', 'bar' => 'b', 'baz' => 'c');
         $cont = new Container($params);
 
         $this->assertEquals($params, $cont->getAll());
@@ -24,16 +25,16 @@ class ContainerTest extends TestCase
 
     public function testAdd()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b'));
         $result = $cont->add('baz', 'c');
 
-        $this->assertEquals(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'), $cont->getAll());
         $this->assertSame($cont, $result);
     }
 
     public function testAddDuplicate()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
 
         $this->setExpectedException('Graze\DataStructure\Exception\RegisteredKeyException');
         $result = $cont->add('baz', 'd');
@@ -41,7 +42,7 @@ class ContainerTest extends TestCase
 
     public function testForAll()
     {
-        $params = array('foo'=>'a', 'bar'=>'b', 'baz'=>'c');
+        $params = array('foo' => 'a', 'bar' => 'b', 'baz' => 'c');
         $seen = array();
 
         $cont = new Container($params);
@@ -54,7 +55,7 @@ class ContainerTest extends TestCase
 
     public function testGet()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
 
         $this->assertEquals('a', $cont->get('foo'));
     }
@@ -75,57 +76,57 @@ class ContainerTest extends TestCase
 
     public function testHasIsTrue()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
 
         $this->assertTrue($cont->has('foo'));
     }
 
     public function testHasIsFalse()
     {
-        $cont = new Container(array('FOO'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('FOO' => 'a', 'bar' => 'b', 'baz' => 'c'));
 
         $this->assertFalse($cont->has('foo'));
     }
 
     public function testRemove()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
         $result = $cont->remove('bar');
 
-        $this->assertEquals(array('foo'=>'a', 'baz'=>'c'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'baz' => 'c'), $cont->getAll());
         $this->assertSame($cont, $result);
     }
 
     public function testRemoveMissing()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b'));
         $result = $cont->remove('baz');
 
-        $this->assertEquals(array('foo'=>'a', 'bar'=>'b'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'bar' => 'b'), $cont->getAll());
         $this->assertSame($cont, $result);
     }
 
     public function testSet()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b'));
         $result = $cont->set('baz', 'c');
 
-        $this->assertEquals(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'), $cont->getAll());
         $this->assertSame($cont, $result);
     }
 
     public function testSetDuplicate()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
         $result = $cont->set('baz', 'd');
 
-        $this->assertEquals(array('foo'=>'a', 'bar'=>'b', 'baz'=>'d'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'bar' => 'b', 'baz' => 'd'), $cont->getAll());
         $this->assertSame($cont, $result);
     }
 
     public function testSerialize()
     {
-        $cont = new Container(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'));
+        $cont = new Container(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'));
 
         $this->assertEquals('C:39:"Graze\DataStructure\Container\Container":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}', serialize($cont));
     }
@@ -134,6 +135,6 @@ class ContainerTest extends TestCase
     {
         $cont = unserialize('C:39:"Graze\DataStructure\Container\Container":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}');
 
-        $this->assertEquals(array('foo'=>'a', 'bar'=>'b', 'baz'=>'c'), $cont->getAll());
+        $this->assertEquals(array('foo' => 'a', 'bar' => 'b', 'baz' => 'c'), $cont->getAll());
     }
 }
