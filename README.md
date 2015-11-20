@@ -1,4 +1,4 @@
-# DataStructure
+# graze/data-structure
 
 [![Build status][ico-build]][travis]
 [![Code Quality][ico-quality]][scrutinizer]
