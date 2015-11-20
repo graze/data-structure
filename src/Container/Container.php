@@ -22,12 +22,12 @@ class Container implements ContainerInterface, Serializable
     /**
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * @param array $params
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         foreach ($params as $key => $value) {
             $this->set($key, $value);

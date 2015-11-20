@@ -17,7 +17,7 @@ class ImmutableCollectionTest extends TestCase
 
     public function testConstructor()
     {
-        $items = array('foo', 'bar', 'baz');
+        $items = ['foo', 'bar', 'baz'];
         $coll = new ImmutableCollection($items);
 
         $this->assertEquals($items, $coll->getAll());
@@ -25,63 +25,63 @@ class ImmutableCollectionTest extends TestCase
 
     public function testAdd()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar'));
+        $coll = new ImmutableCollection(['foo', 'bar']);
         $result = $coll->add('baz');
 
-        $this->assertEquals(array('foo', 'bar'), $coll->getAll());
-        $this->assertEquals(array('foo', 'bar', 'baz'), $result->getAll());
+        $this->assertEquals(['foo', 'bar'], $coll->getAll());
+        $this->assertEquals(['foo', 'bar', 'baz'], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
 
     public function testAddDuplicate()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
         $result = $coll->add('baz');
 
-        $this->assertEquals(array('foo', 'bar', 'baz'), $coll->getAll());
-        $this->assertEquals(array('foo', 'bar', 'baz', 'baz'), $result->getAll());
+        $this->assertEquals(['foo', 'bar', 'baz'], $coll->getAll());
+        $this->assertEquals(['foo', 'bar', 'baz', 'baz'], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
 
     public function testContainsIsTrue()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
 
         $this->assertTrue($coll->contains('foo'));
     }
 
     public function testContainsIsFalse()
     {
-        $coll = new ImmutableCollection(array('FOO', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['FOO', 'bar', 'baz']);
 
         $this->assertFalse($coll->contains('foo'));
     }
 
     public function testContainsIsStrict()
     {
-        $coll = new ImmutableCollection(array(0, 1));
+        $coll = new ImmutableCollection([0, 1]);
 
         $this->assertFalse($coll->contains(false));
     }
 
     public function testCount()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
 
         $this->assertEquals(3, count($coll));
     }
 
     public function testFilter()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
         $result = $coll->filter(function ($item) {
             return 'foo' !== $item;
         });
 
-        $this->assertEquals(array('foo', 'bar', 'baz'), $coll->getAll());
-        $this->assertEquals(array('bar', 'baz'), $result->getAll());
+        $this->assertEquals(['foo', 'bar', 'baz'], $coll->getAll());
+        $this->assertEquals(['bar', 'baz'], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
@@ -95,17 +95,17 @@ class ImmutableCollectionTest extends TestCase
 
     public function testMap()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
         $result = $coll->map(function ($item) {
             return $item[0];
         });
 
-        $this->assertEquals(array('f', 'b', 'b'), $result);
+        $this->assertEquals(['f', 'b', 'b'], $result);
     }
 
     public function testReduce()
     {
-        $coll = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $coll = new ImmutableCollection(['foo', 'bar', 'baz']);
         $result = $coll->reduce(function ($carry, $item) {
             return $carry . $item;
         });
@@ -115,46 +115,46 @@ class ImmutableCollectionTest extends TestCase
 
     public function testSort()
     {
-        $coll = new ImmutableCollection(array(2, 3, 1));
+        $coll = new ImmutableCollection([2, 3, 1]);
         $result = $coll->sort(s\comparison_fn(function ($item) {
             return $item;
         }));
 
-        $this->assertEquals(array(2, 3, 1), $coll->getAll());
-        $this->assertEquals(array(1, 2, 3), $result->getAll());
+        $this->assertEquals([2, 3, 1], $coll->getAll());
+        $this->assertEquals([1, 2, 3], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
 
     public function testSortOnAsc()
     {
-        $coll = new ImmutableCollection(array(2, 3, 1));
+        $coll = new ImmutableCollection([2, 3, 1]);
         $result = $coll->sortOn(function ($item) {
             return $item;
         });
 
-        $this->assertEquals(array(2, 3, 1), $coll->getAll());
-        $this->assertEquals(array(1, 2, 3), $result->getAll());
+        $this->assertEquals([2, 3, 1], $coll->getAll());
+        $this->assertEquals([1, 2, 3], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
 
     public function testSortOnDesc()
     {
-        $coll = new ImmutableCollection(array(2, 3, 1));
+        $coll = new ImmutableCollection([2, 3, 1]);
         $result = $coll->sortOn(function ($item) {
             return $item;
         }, s\DESC);
 
-        $this->assertEquals(array(2, 3, 1), $coll->getAll());
-        $this->assertEquals(array(3, 2, 1), $result->getAll());
+        $this->assertEquals([2, 3, 1], $coll->getAll());
+        $this->assertEquals([3, 2, 1], $result->getAll());
         $this->assertNotSame($coll, $result);
         $this->assertInstanceOf('Graze\DataStructure\Collection\ImmutableCollection', $result);
     }
 
     public function testSerialize()
     {
-        $cont = new ImmutableCollection(array('foo', 'bar', 'baz'));
+        $cont = new ImmutableCollection(['foo', 'bar', 'baz']);
 
         $this->assertEquals('C:50:"Graze\DataStructure\Collection\ImmutableCollection":48:{a:3:{i:0;s:3:"foo";i:1;s:3:"bar";i:2;s:3:"baz";}}', serialize($cont));
     }
@@ -163,6 +163,6 @@ class ImmutableCollectionTest extends TestCase
     {
         $cont = unserialize('C:50:"Graze\DataStructure\Collection\ImmutableCollection":48:{a:3:{i:0;s:3:"foo";i:1;s:3:"bar";i:2;s:3:"baz";}}');
 
-        $this->assertEquals(array('foo', 'bar', 'baz'), $cont->getAll());
+        $this->assertEquals(['foo', 'bar', 'baz'], $cont->getAll());
     }
 }
