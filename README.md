@@ -27,19 +27,10 @@ This library implements common data collections and containers in PHP.
 It can be installed in whichever way you prefer, but we recommend [Composer][packagist].
 
 ``` bash
-$ composer require graze/:package_name
+$ composer require graze/data-structure
 ```
 
-To make it a dependency for your project, add it to your `composer.json` file:
-```json
-{
-    "require": {
-        "graze/data-structure": "*"
-    }
-}
-```
-
-## Documentation
+## Usage
 ```php
 <?php
 
