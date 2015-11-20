@@ -5,6 +5,7 @@
 [![Latest Version][ico-package]][packagist]
 [![PHP ~5.3][ico-engine]][lang]
 [![MIT Licensed][ico-license]][license]
+[![Style CI][ico-style]][styleci]
 
 <!-- Links -->
 [travis]: https://travis-ci.org/graze/data-structure
@@ -12,14 +13,15 @@
 [lang]: https://secure.php.net
 [license]: https://github.com/graze/data-structure/blob/master/LICENSE
 [scrutinizer]: https://scrutinizer-ci.com/g/graze/data-structure/
+[styleci]: https://styleci.io/repos/11204162
 
 <!-- Images -->
 [ico-build]: https://travis-ci.org/graze/data-structure.png?branch=master
 [ico-package]: https://img.shields.io/packagist/v/graze/data-structure.svg
 [ico-engine]: https://img.shields.io/badge/php-%3E%3D5.3-8892BF.svg
 [ico-license]: https://img.shields.io/packagist/l/graze/data-structure.svg
-[ico-quality]: https://img.shields.io/scrutinizer/g/graze/data-structure.svg
-[![StyleCI](https://styleci.io/repos/11204162/shield)](https://styleci.io/repos/11204162)
+[ico-quality]: https://img.shields.io/scrutinizer/g/graze/data-structure.svg 
+[ico-style]: https://styleci.io/repos/11204162/shield
 
 This library implements common data collections and containers in PHP.
 
