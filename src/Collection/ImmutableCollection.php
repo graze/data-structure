@@ -20,7 +20,7 @@ class ImmutableCollection extends Collection
     /**
      * @param mixed[] $items
      */
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         foreach ($items as $item) {
             $this->addItem($item);

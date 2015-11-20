@@ -18,7 +18,7 @@
 <!-- Images -->
 [ico-build]: https://img.shields.io/travis/graze/data-structure.svg?style=flat-square
 [ico-package]: https://img.shields.io/packagist/v/graze/data-structure.svg?style=flat-square
-[ico-engine]: https://img.shields.io/badge/php-%3E%3D5.3-8892BF.svg?style=flat-square
+[ico-engine]: https://img.shields.io/badge/php-%3E%3D5.5-8892BF.svg?style=flat-square
 [ico-license]: https://img.shields.io/packagist/l/graze/data-structure.svg?style=flat-square
 [ico-quality]: https://img.shields.io/scrutinizer/g/graze/data-structure.svg?style=flat-square
 [ico-style]: https://styleci.io/repos/11204162/shield
