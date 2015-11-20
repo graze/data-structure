@@ -1,4 +1,3 @@
 disabled:
-  - short_array_syntax
   - phpdoc_align
   - concat_without_spaces
