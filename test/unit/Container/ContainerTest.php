@@ -2,7 +2,6 @@
 
 namespace Graze\DataStructure\Container;
 
-use Graze\Sort as s;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class ContainerTest extends TestCase
@@ -32,12 +31,14 @@ class ContainerTest extends TestCase
         $this->assertSame($cont, $result);
     }
 
+    /**
+     * @expectedException \Graze\DataStructure\Exception\RegisteredKeyException
+     */
     public function testAddDuplicate()
     {
         $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
-        $this->setExpectedException('Graze\DataStructure\Exception\RegisteredKeyException');
-        $result = $cont->add('baz', 'd');
+        $cont->add('baz', 'd');
     }
 
     public function testForAll()
@@ -136,5 +137,35 @@ class ContainerTest extends TestCase
         $cont = unserialize('C:39:"Graze\DataStructure\Container\Container":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}');
 
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
+    }
+
+    public function testArrayAccessGet()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        $this->assertEquals('a', $cont['foo']);
+    }
+
+    public function testArrayAccessIsset()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        $this->assertTrue(isset($cont['bar']));
+    }
+
+    public function testArrayAccessUnset()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        unset($cont['baz']);
+        $this->assertFalse($cont->has('baz'));
+    }
+
+    public function testArrayAccessSet()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        $cont['baz'] = 'd';
+        $this->assertEquals('d', $cont->get('baz'));
     }
 }

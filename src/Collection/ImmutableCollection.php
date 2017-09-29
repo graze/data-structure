@@ -22,13 +22,17 @@ class ImmutableCollection extends Collection
      */
     public function __construct(array $items = [])
     {
+        parent::__construct([]);
+
         foreach ($items as $item) {
             $this->addItem($item);
         }
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
+     *
+     * @return ImmutableCollection
      */
     public function add($value)
     {
@@ -39,17 +43,21 @@ class ImmutableCollection extends Collection
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     *
+     * @return ImmutableCollection
      */
-    public function filter($fn)
+    public function filter(callable $fn)
     {
         return new self(array_filter($this->items, $fn));
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     *
+     * @return ImmutableCollection
      */
-    public function sort($fn)
+    public function sort(callable $fn)
     {
         $items = $this->items;
         usort($items, $fn);
@@ -58,9 +66,12 @@ class ImmutableCollection extends Collection
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     * @param int      $order
+     *
+     * @return ImmutableCollection
      */
-    public function sortOn($fn, $order = Sort\ASC)
+    public function sortOn(callable $fn, $order = Sort\ASC)
     {
         return new self(Sort\comparison($this->items, $fn, $order));
     }

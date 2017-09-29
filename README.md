@@ -34,6 +34,7 @@ $ composer require graze/data-structure
 ```
 
 ## Usage
+
 ```php
 <?php
 
@@ -62,6 +63,7 @@ $container->remove('bam');
 ```
 
 ### Immutable structures
+
 ```php
 <?php
 
@@ -83,24 +85,17 @@ $container = $container->remove('bam');
 ```
 
 ## Contributing
+
 Contributions are accepted via Pull Request, but passing unit tests must be
 included before it will be considered for merge.
-```bash
-$ composer install
-$ vendor/bin/phpunit
-```
 
-If you have [Vagrant][vagrant] installed, you can build our dev environment to
-assist development. The repository will be mounted in `/srv`.
 ```bash
-$ vagrant up
-$ vagrant ssh
-
-Welcome to Ubuntu 12.04 LTS (GNU/Linux 3.2.0-23-generic x86_64)
-$ cd /srv
+$ make
+$ make test
 ```
 
 ### License
+
 The content of this library is released under the **MIT License** by
 **Nature Delivered Ltd**.<br/> You can find a copy of this license at
 http://www.opensource.org/licenses/mit or in [`LICENSE`][license].

@@ -35,7 +35,9 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
+     *
+     * @return $this
      */
     public function add($value)
     {
@@ -45,7 +47,9 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param mixed $value
+     *
+     * @return bool
      */
     public function contains($value)
     {
@@ -53,7 +57,7 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
     public function count()
     {
@@ -61,9 +65,11 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     *
+     * @return $this
      */
-    public function filter($fn)
+    public function filter(callable $fn)
     {
         $this->items = array_values(array_filter($this->items, $fn));
 
@@ -71,7 +77,7 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return mixed[]
      */
     public function getAll()
     {
@@ -79,7 +85,7 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return ArrayIterator
      */
     public function getIterator()
     {
@@ -87,25 +93,32 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     *
+     * @return array
      */
-    public function map($fn)
+    public function map(callable $fn)
     {
         return array_map($fn, $this->items);
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable   $fn
+     * @param mixed|null $initial
+     *
+     * @return mixed
      */
-    public function reduce($fn, $initial = null)
+    public function reduce(callable $fn, $initial = null)
     {
         return array_reduce($this->items, $fn, $initial);
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     *
+     * @return $this
      */
-    public function sort($fn)
+    public function sort(callable $fn)
     {
         usort($this->items, $fn);
 
@@ -113,9 +126,12 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param callable $fn
+     * @param int      $order
+     *
+     * @return $this
      */
-    public function sortOn($fn, $order = Sort\ASC)
+    public function sortOn(callable $fn, $order = Sort\ASC)
     {
         $this->items = Sort\comparison($this->items, $fn, $order);
 
@@ -123,7 +139,7 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function serialize()
     {
@@ -131,7 +147,7 @@ class Collection implements CollectionInterface, Serializable
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $data
      */
     public function unserialize($data)
     {

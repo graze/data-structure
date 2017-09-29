@@ -20,13 +20,18 @@ class ImmutableContainer extends Container
      */
     public function __construct(array $params = [])
     {
+        parent::__construct([]);
+
         foreach ($params as $key => $value) {
             $this->setParameter($key, $value);
         }
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return ImmutableContainer
      */
     public function set($key, $value)
     {
@@ -37,7 +42,9 @@ class ImmutableContainer extends Container
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return $this
      */
     public function remove($key)
     {
@@ -55,7 +62,7 @@ class ImmutableContainer extends Container
      * @param string $key
      * @param mixed $value
      *
-     * @return CollectionInterface
+     * @return ContainerInterface
      */
     protected function setParameter($key, $value)
     {
