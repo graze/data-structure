@@ -25,7 +25,7 @@ before_script:
   - travis_retry composer update --no-interaction --prefer-dist $PREFER_LOWEST
 
 script:
-  - vendor/bin/phpcs -p --warning-severity=0 src/ tests/
+  - vendor/bin/phpcs -p --warning-severity=0 src/ test/
   - vendor/bin/phpunit --coverage-clover=./tests/report/coverage.clover
 
 after_script:
