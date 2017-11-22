@@ -147,4 +147,20 @@ class ImmutableContainerTest extends TestCase
 
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
     }
+
+    public function testArrayAccessUnset()
+    {
+        $cont = new ImmutableContainer(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        unset($cont['baz']);
+        $this->assertTrue($cont->has('baz'));
+    }
+
+    public function testArrayAccessSet()
+    {
+        $cont = new ImmutableContainer(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        $cont['baz'] = 'd';
+        $this->assertEquals('c', $cont->get('baz'));
+    }
 }

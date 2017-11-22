@@ -15,8 +15,9 @@ namespace Graze\DataStructure\Container;
 
 use Graze\DataStructure\Exception\RegisteredKeyException;
 use IteratorAggregate;
+use ArrayAccess;
 
-interface ContainerInterface extends IteratorAggregate
+interface ContainerInterface extends IteratorAggregate, ArrayAccess
 {
     /**
      * @param string $key
@@ -31,7 +32,7 @@ interface ContainerInterface extends IteratorAggregate
     /**
      * @param callable $fn
      */
-    public function forAll($fn);
+    public function forAll(callable $fn);
 
     /**
      * @param string $key
