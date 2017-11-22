@@ -40,9 +40,10 @@ $ composer require graze/data-structure
 
 use Graze\DataStructure\Collection\Collection;
 use Graze\DataStructure\Container\Container;
+use Graze\DataStructure\Container\FlatContainer;
 
 // Collection
-$collection = new Collection(array('foo', 'bar'));
+$collection = new Collection(['foo', 'bar']);
 $collection->add('baz');
 $collection->contains('baz');
 $collection->getAll();
@@ -53,13 +54,22 @@ $collection->sort(function ($itemA, $itemB) {});
 $collection->sortOn(function ($item) {});
 
 // Container
-$container = new Container(array('foo' => 0, 'bar' => 1));
+$container = new Container(['foo' => 0, 'bar' => 1]);
 $container->add('baz', 2);
 $container->has('baz');
-$container->forAll(function ($value, $key) {})
+$container->forAll(function ($value, $key) {});
 $container->get('baz');
 $container->set('bam', 3);
 $container->remove('bam');
+
+// FlatContainer
+$container = new FlatContainer(['foo' => 0, 'bar' => ['child' => 'arr'], 'baz' => new Container(['ack' => 'bar'])]);
+$container->has('bar.child');
+$container->has('baz.ack');
+$container->get('bar.child');
+$container->get('baz.ack');
+$container->set('bar.other', 'more');
+$container->remove('baz.ack');
 ```
 
 ### Immutable structures
@@ -69,19 +79,26 @@ $container->remove('bam');
 
 use Graze\DataStructure\Collection\ImmutableCollection;
 use Graze\DataStructure\Container\ImmutableContainer;
+use Graze\DataStructure\Container\ImmutableFlatContainer;
 
 // Immutable collection
-$collection = new ImmutableCollection(array('foo', 'bar'));
+$collection = new ImmutableCollection(['foo', 'bar']);
 $collection = $collection->add('baz');
 $collection = $collection->filter(function ($item) {});
 $collection = $collection->sort(function ($itemA, $itemB) {});
 $collection = $collection->sortOn(function ($item) {});
 
 // Immutable container
-$container = new ImmutableContainer(array('foo'=>0, 'bar'=>1));
+$container = new ImmutableContainer(['foo' => 0, 'bar' => 1]);
 $container = $container->add('baz', 2);
 $container = $container->set('bam', 3);
 $container = $container->remove('bam');
+
+// Immutable flat container
+$container = new ImmutableFlatContainer(['foo' => 0, 'bar' => ['child' => 'arr'], 'baz' => new ImmutableContainer(['ack' => 'bar'])]);
+$container = $container->add('a.new.array', 'more');
+$container = $container->set('bar.other', 'more');
+$container = $container->remove('baz.ack');
 ```
 
 ## Contributing

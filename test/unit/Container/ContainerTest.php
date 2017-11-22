@@ -2,7 +2,9 @@
 
 namespace Graze\DataStructure\Container;
 
+use ArrayAccess;
 use PHPUnit_Framework_TestCase as TestCase;
+use Serializable;
 
 class ContainerTest extends TestCase
 {
@@ -10,8 +12,9 @@ class ContainerTest extends TestCase
     {
         $cont = new Container();
 
-        $this->assertInstanceOf('Graze\DataStructure\Container\ContainerInterface', $cont);
-        $this->assertInstanceOf('Serializable', $cont);
+        $this->assertInstanceOf(ContainerInterface::class, $cont);
+        $this->assertInstanceOf(Serializable::class, $cont);
+        $this->assertInstanceOf(ArrayAccess::class, $cont);
     }
 
     public function testConstructor()

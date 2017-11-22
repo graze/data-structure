@@ -2,7 +2,7 @@
 /*
  * This file is part of Graze DataStructure
  *
- * Copyright (c) 2014 Nature Delivered Ltd. <http://graze.com>
+ * Copyright (c) 2017 Nature Delivered Ltd. <http://graze.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@
 
 namespace Graze\DataStructure\Container;
 
-class ImmutableContainer extends Container
+class ImmutableFlatContainer extends FlatContainer
 {
     /**
      * @param array $params
@@ -23,7 +23,7 @@ class ImmutableContainer extends Container
         parent::__construct([]);
 
         foreach ($params as $key => $value) {
-            $this->setParameter($key, $value);
+            $this->doSet($key, $value);
         }
     }
 
@@ -36,7 +36,7 @@ class ImmutableContainer extends Container
     public function set($key, $value)
     {
         $cont = clone $this;
-        $cont->setParameter($key, $value);
+        $cont->doSet($key, $value);
 
         return $cont;
     }
@@ -50,32 +50,11 @@ class ImmutableContainer extends Container
     {
         if ($this->has($key)) {
             $cont = clone $this;
-            $cont->removeParameter($key);
+            $cont->doRemove($key);
 
             return $cont;
         }
 
         return $this;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return ContainerInterface
-     */
-    protected function setParameter($key, $value)
-    {
-        return parent::set($key, $value);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return ContainerInterface
-     */
-    protected function removeParameter($key)
-    {
-        return parent::remove($key);
     }
 }

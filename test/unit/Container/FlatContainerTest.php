@@ -4,7 +4,7 @@ namespace Graze\DataStructure\Container;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
-class CollapsedContainerTest extends TestCase
+class FlatContainerTest extends TestCase
 {
     /**
      * @dataProvider getData
@@ -15,7 +15,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testGet(array $base, $key, $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
 
         $this->assertEquals($expected, $cont->get($key));
     }
@@ -29,7 +29,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testArrayGet(array $base, $key, $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
 
         $this->assertEquals($expected, $cont[$key]);
     }
@@ -98,7 +98,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testSet(array $base, $key, $value, array $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         $cont->set($key, $value);
 
         $this->assertEquals($expected, $cont->getAll());
@@ -114,7 +114,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testArraySet(array $base, $key, $value, array $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         $cont[$key] = $value;
 
         $this->assertEquals($expected, $cont->getAll());
@@ -192,7 +192,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testHas(array $base, $key, $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         $this->assertEquals($expected, $cont->has($key));
     }
 
@@ -205,7 +205,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testArrayIsset(array $base, $key, $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         $this->assertEquals($expected, isset($cont[$key]));
     }
 
@@ -263,7 +263,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testRemove(array $base, $key, array $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         $cont->remove($key);
         $this->assertEquals($expected, $cont->getAll());
     }
@@ -277,7 +277,7 @@ class CollapsedContainerTest extends TestCase
      */
     public function testArrayUnset(array $base, $key, array $expected)
     {
-        $cont = new CollapsedContainer($base);
+        $cont = new FlatContainer($base);
         unset($cont[$key]);
         $this->assertEquals($expected, $cont->getAll());
     }

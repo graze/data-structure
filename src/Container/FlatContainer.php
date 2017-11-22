@@ -1,19 +1,30 @@
 <?php
+/*
+ * This file is part of Graze DataStructure
+ *
+ * Copyright (c) 2017 Nature Delivered Ltd. <http://graze.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see  http://github.com/graze/data-structure/blob/master/LICENSE
+ * @link http://github.com/graze/data-structure
+ */
 
 namespace Graze\DataStructure\Container;
 
 use ArrayAccess;
 
 /**
- * CollapsedContainer accepts key access using a delimiter to represent child arrays
+ * FlatContainer accepts key access using a delimiter to represent child arrays
  *
  * ## Examples
  *
  * ```php
- * $container = new CollapsedContainer(['first' => 'value', 'second' => ['child' => 1, 'other' => 2]]);
+ * $container = new FlatContainer(['first' => 'value', 'second' => ['child' => 1, 'other' => 2]]);
  *
- * ($container->get('second.child') === 1)
- * // true
+ * $container->get('second.child')
+ * // 1
  *
  * ($container->has('first.child'))
  * // false
@@ -27,9 +38,30 @@ use ArrayAccess;
  * // ['first' => 'value', 'second' => ['child' => 1, 'third'=> 3]]
  * ```
  */
-class CollapsedContainer extends Container
+class FlatContainer extends Container
 {
     const DELIMITER = '.';
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function has($key)
+    {
+        if (mb_strpos($key, static::DELIMITER) !== false) {
+            $top = $this->getAll();
+
+            foreach (explode(static::DELIMITER, $key) as $node) {
+                if (!isset($top[$node])) {
+                    return false;
+                }
+                $top = $top[$node];
+            }
+            return true;
+        }
+        return parent::has($key);
+    }
 
     /**
      * @param string $key
@@ -39,7 +71,7 @@ class CollapsedContainer extends Container
     public function get($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = $this->params;
+            $top = $this->getAll();
 
             foreach (explode(static::DELIMITER, $key) as $node) {
                 if (!isset($top[$node])) {
@@ -57,9 +89,20 @@ class CollapsedContainer extends Container
      * @param string $key
      * @param mixed  $value
      *
-     * @return $this|ContainerInterface
+     * @return ContainerInterface
      */
     public function set($key, $value)
+    {
+        return $this->doSet($key, $value);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     *
+     * @return ContainerInterface
+     */
+    protected function doSet($key, $value)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
             $split = explode(static::DELIMITER, $key);
@@ -76,7 +119,7 @@ class CollapsedContainer extends Container
                 $top[$last] = $value;
             }
 
-            return $this->set($key, $top);
+            return $this->doSet($key, $top);
         }
 
         return parent::set($key, $value);
@@ -85,30 +128,19 @@ class CollapsedContainer extends Container
     /**
      * @param string $key
      *
-     * @return bool
+     * @return ContainerInterface
      */
-    public function has($key)
+    public function remove($key)
     {
-        if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = $this->params;
-
-            foreach (explode(static::DELIMITER, $key) as $node) {
-                if (!isset($top[$node])) {
-                    return false;
-                }
-                $top = $top[$node];
-            }
-            return true;
-        }
-        return parent::has($key);
+        return $this->doRemove($key);
     }
 
     /**
      * @param string $key
      *
-     * @return $this|ContainerInterface
+     * @return ContainerInterface
      */
-    public function remove($key)
+    protected function doRemove($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
             $split = explode(static::DELIMITER, $key);
@@ -125,7 +157,7 @@ class CollapsedContainer extends Container
                 unset($top[$last]);
             }
 
-            return $this->set($key, $top);
+            return $this->doSet($key, $top);
         }
 
         return parent::remove($key);
