@@ -9,7 +9,7 @@ PREFER_LOWEST ?=
 
 .PHONY: build build-update composer-% clean help run
 .PHONY: lint lint-fix
-.PHONY: test test-unit test-lowest test-matrix test-coverage test-coverage-html test-coverage-clover
+.PHONY: test test-unit test-lowest test-matrix test-matrix-lowest test-coverage test-coverage-html test-coverage-clover
 
 .SILENT: help
 
@@ -23,8 +23,8 @@ build-update: ## Update all dependencies
 
 composer-%: ## Run a composer command, `make "composer-<command> [...]"`.
 	${DOCKER} run -t --rm \
-        -v $$(pwd):/app \
-        -v ~/.composer:/tmp \
+        -v $$(pwd):/app:delegated \
+        -v ~/.composer:/tmp:delegated \
         composer --ansi --no-interaction $* $(filter-out $@,$(MAKECMDGOALS))
 
 # Testing
@@ -42,20 +42,19 @@ test-unit: ## Run the unit testsuite.
 	${DOCKER_RUN} vendor/bin/phpunit --testsuite unit
 
 test-lowest: ## Test using the lowest possible versions of the dependencies
-test-lowest: PREFER_LOWEST=--prefer-lowest
+test-lowest: PREFER_LOWEST=--prefer-lowest --prefer-stable
 test-lowest: build-update test
 
 test-matrix: ## Run the unit tests against multiple targets.
-	${MAKE} IMAGE="php:5.5-alpine" PREFER_LOWEST=--prefer-lowest build-update test
-	${MAKE} IMAGE="php:5.6-alpine" PREFER_LOWEST=--prefer-lowest build-update test
-	${MAKE} IMAGE="php:7.0-alpine" PREFER_LOWEST=--prefer-lowest build-update test
-	${MAKE} IMAGE="php:7.1-alpine" PREFER_LOWEST=--prefer-lowest build-update test
-	${MAKE} IMAGE="hhvm/hhvm:latest" PREFER_LOWEST=--prefer-lowest build-update test
-	${MAKE} IMAGE="php:5.5-alpine" build-update test
-	${MAKE} IMAGE="php:5.6-alpine" build-update test
-	${MAKE} IMAGE="php:7.0-alpine" build-update test
-	${MAKE} IMAGE="php:7.1-alpine" build-update test
-	${MAKE} IMAGE="hhvm/hhvm:latest" build-update test
+	${MAKE} IMAGE="php:5.6-alpine" test
+	${MAKE} IMAGE="php:7.0-alpine" test
+	${MAKE} IMAGE="php:7.1-alpine" test
+	${MAKE} IMAGE="hhvm/hhvm:latest" test
+
+test-matrix-lowest: ## Run the unit tests against
+	${MAKE} build-update PREFER_LOWEST='--prefer-lowest --prefer-stable'
+	${MAKE} test-matrix
+	${MAKE} build-update
 
 test-coverage: ## Run all tests and output coverage to the console.
 	${DOCKER_RUN} phpdbg7 -qrr vendor/bin/phpunit --coverage-text
