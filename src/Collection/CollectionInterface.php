@@ -43,14 +43,14 @@ interface CollectionInterface extends Countable, IteratorAggregate
      *
      * @return CollectionInterface
      */
-    public function filter($fn);
+    public function filter(callable $fn);
 
     /**
      * @param callable $fn
      *
      * @return mixed[]
      */
-    public function map($fn);
+    public function map(callable $fn);
 
     /**
      * @param callable $fn
@@ -58,7 +58,7 @@ interface CollectionInterface extends Countable, IteratorAggregate
      *
      * @return mixed
      */
-    public function reduce($fn, $initial = null);
+    public function reduce(callable $fn, $initial = null);
 
     /**
      * @link http://php.net/manual/en/function.usort.php
@@ -67,7 +67,7 @@ interface CollectionInterface extends Countable, IteratorAggregate
      *
      * @return CollectionInterface
      */
-    public function sort($fn);
+    public function sort(callable $fn);
 
     /**
      * @param callable $fn
@@ -75,5 +75,5 @@ interface CollectionInterface extends Countable, IteratorAggregate
      *
      * @return CollectionInterface
      */
-    public function sortOn($fn, $order = Sort\ASC);
+    public function sortOn(callable $fn, $order = Sort\ASC);
 }
