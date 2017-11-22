@@ -13,8 +13,6 @@
 
 namespace Graze\DataStructure\Container;
 
-use Graze\DataStructure\Collection\CollectionInterface;
-
 class ImmutableContainer extends Container
 {
     /**
@@ -62,7 +60,7 @@ class ImmutableContainer extends Container
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return ContainerInterface
      */

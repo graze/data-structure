@@ -75,6 +75,16 @@ class CollapsedContainerTest extends TestCase
                 'indexed.0',
                 'first',
             ],
+            [
+                ['top' => new Container(['a' => 'b', 'c' => 'd'])],
+                'top.a',
+                'b',
+            ],
+            [
+                ['top' => new Container(['a' => ['c' => 'd']])],
+                'top.a.c',
+                'd',
+            ],
         ];
     }
 
@@ -146,6 +156,30 @@ class CollapsedContainerTest extends TestCase
                 'value',
                 ['key' => ['second' => 'value']],
             ],
+            [
+                ['child' => new Container(['node' => 'child'])],
+                'child.node',
+                'value',
+                ['child' => new Container(['node' => 'value'])],
+            ],
+            [
+                ['child' => new Container(['node' => 'child'])],
+                'child.other',
+                'value',
+                ['child' => new Container(['node' => 'child', 'other' => 'value'])],
+            ],
+            [
+                ['child' => new Container(['node' => 'child'])],
+                'child.other.more',
+                'value',
+                ['child' => new Container(['node' => 'child', 'other' => ['more' => 'value']])],
+            ],
+            [
+                ['child' => new ImmutableContainer(['node' => 'child'])],
+                'child.other.more',
+                'value',
+                ['child' => new ImmutableContainer(['node' => 'child', 'other' => ['more' => 'value']])],
+            ],
         ];
     }
 
@@ -207,6 +241,15 @@ class CollapsedContainerTest extends TestCase
             ],
             [
                 ['key' => ['child' => 'value']], 'key.nope', false,
+            ],
+            [
+                ['key' => new Container(['child' => 'value'])], 'key.child', true,
+            ],
+            [
+                ['key' => new Container(['child' => 'value'])], 'key.nope', false,
+            ],
+            [
+                ['key' => new Container(['child' => 'value'])], 'key', true,
             ],
         ];
     }
@@ -271,6 +314,18 @@ class CollapsedContainerTest extends TestCase
             ],
             [
                 ['key' => ['child' => 'value']], 'key.nope', ['key' => ['child' => 'value']],
+            ],
+            [
+                ['key' => new Container(['child' => 'value'])], 'key', [],
+            ],
+            [
+                ['key' => new Container(['child' => 'value'])], 'key.child', ['key' => new Container([])],
+            ],
+            [
+                ['key' => new Container(['child' => 'value', 'other' => 'thing'])], 'key.child', ['key' => new Container(['other' => 'thing'])],
+            ],
+            [
+                ['key' => new ImmutableContainer(['child' => 'value'])], 'key.child', ['key' => new ImmutableContainer([])],
             ],
         ];
     }

@@ -2,6 +2,8 @@
 
 namespace Graze\DataStructure\Container;
 
+use ArrayAccess;
+
 /**
  * CollapsedContainer accepts key access using a delimiter to represent child arrays
  *
@@ -37,13 +39,13 @@ class CollapsedContainer extends Container
     public function get($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = &$this->params;
+            $top = $this->params;
 
             foreach (explode(static::DELIMITER, $key) as $node) {
                 if (!isset($top[$node])) {
                     return null;
                 }
-                $top = &$top[$node];
+                $top = $top[$node];
             }
             return $top;
         }
@@ -60,17 +62,21 @@ class CollapsedContainer extends Container
     public function set($key, $value)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = &$this->params;
-
-            foreach (explode(static::DELIMITER, $key) as $node) {
-                if (!isset($top[$node]) || !is_array($top[$node])) {
-                    $top[$node] = [];
-                }
-                $top = &$top[$node];
+            $split = explode(static::DELIMITER, $key);
+            $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+            $top = $this->get($key);
+            if (is_null($top) || (!is_array($top) && !($top instanceof ArrayAccess))) {
+                $top = [];
             }
-            $top = $value;
 
-            return $this;
+            $last = $split[count($split) - 1];
+            if ($top instanceof ContainerInterface) {
+                $top = $top->set($last, $value);
+            } else {
+                $top[$last] = $value;
+            }
+
+            return $this->set($key, $top);
         }
 
         return parent::set($key, $value);
@@ -84,13 +90,13 @@ class CollapsedContainer extends Container
     public function has($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = &$this->params;
+            $top = $this->params;
 
             foreach (explode(static::DELIMITER, $key) as $node) {
                 if (!isset($top[$node])) {
                     return false;
                 }
-                $top = &$top[$node];
+                $top = $top[$node];
             }
             return true;
         }
@@ -105,21 +111,23 @@ class CollapsedContainer extends Container
     public function remove($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = &$this->params;
-
             $split = explode(static::DELIMITER, $key);
-            foreach (array_slice($split, 0, -1) as $node) {
-                if (!isset($top[$node])) {
-                    return $this;
-                }
-                $top = &$top[$node];
+            $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+            $top = $this->get($key);
+            if (is_null($top) || (!is_array($top) && !($top instanceof ArrayAccess))) {
+                return $this;
             }
 
-            $last = array_slice($split, -1)[0];
-            unset($top[$last]);
+            $last = $split[count($split) - 1];
+            if ($top instanceof ContainerInterface) {
+                $top = $top->remove($last);
+            } else {
+                unset($top[$last]);
+            }
 
-            return $this;
+            return $this->set($key, $top);
         }
+
         return parent::remove($key);
     }
 }
