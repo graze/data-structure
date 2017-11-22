@@ -13,12 +13,11 @@
 
 namespace Graze\DataStructure\Container;
 
-use ArrayAccess;
 use ArrayIterator;
 use Graze\DataStructure\Exception\RegisteredKeyException;
 use Serializable;
 
-class Container implements ContainerInterface, Serializable, ArrayAccess
+class Container implements ContainerInterface, Serializable
 {
     /**
      * @var array
