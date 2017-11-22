@@ -13,6 +13,8 @@
 
 namespace Graze\DataStructure\Container;
 
+use Graze\DataStructure\Collection\CollectionInterface;
+
 class ImmutableContainer extends Container
 {
     /**
