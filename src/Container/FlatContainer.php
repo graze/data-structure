@@ -45,20 +45,44 @@ class FlatContainer extends Container
     /**
      * @param string $key
      *
+     * @return mixed|null
+     */
+    private function getChild($key)
+    {
+        $top = $this->params;
+
+        foreach (explode(static::DELIMITER, $key) as $node) {
+            if (!isset($top[$node])) {
+                return null;
+            }
+            $top = $top[$node];
+        }
+        return $top;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return string[] split the key into everything up to the last delimiter, and the last key
+     */
+    private function splitToLast($key)
+    {
+        $split = explode(static::DELIMITER, $key);
+        $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+        $last = end($split);
+
+        return [$key, $last];
+    }
+
+    /**
+     * @param string $key
+     *
      * @return bool
      */
     public function has($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = $this->getAll();
-
-            foreach (explode(static::DELIMITER, $key) as $node) {
-                if (!isset($top[$node])) {
-                    return false;
-                }
-                $top = $top[$node];
-            }
-            return true;
+            return (!is_null($this->getChild($key)));
         }
         return parent::has($key);
     }
@@ -71,15 +95,7 @@ class FlatContainer extends Container
     public function get($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $top = $this->getAll();
-
-            foreach (explode(static::DELIMITER, $key) as $node) {
-                if (!isset($top[$node])) {
-                    return null;
-                }
-                $top = $top[$node];
-            }
-            return $top;
+            return $this->getChild($key);
         }
 
         return parent::get($key);
@@ -105,14 +121,13 @@ class FlatContainer extends Container
     protected function doSet($key, $value)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $split = explode(static::DELIMITER, $key);
-            $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+            list($key, $last) = $this->splitToLast($key);
+
             $top = $this->get($key);
             if (is_null($top) || (!is_array($top) && !($top instanceof ArrayAccess))) {
                 $top = [];
             }
 
-            $last = $split[count($split) - 1];
             if ($top instanceof ContainerInterface) {
                 $top = $top->set($last, $value);
             } else {
@@ -143,14 +158,13 @@ class FlatContainer extends Container
     protected function doRemove($key)
     {
         if (mb_strpos($key, static::DELIMITER) !== false) {
-            $split = explode(static::DELIMITER, $key);
-            $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+            list($key, $last) = $this->splitToLast($key);
+
             $top = $this->get($key);
             if (is_null($top) || (!is_array($top) && !($top instanceof ArrayAccess))) {
                 return $this;
             }
 
-            $last = $split[count($split) - 1];
             if ($top instanceof ContainerInterface) {
                 $top = $top->remove($last);
             } else {
