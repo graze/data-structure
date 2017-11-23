@@ -75,7 +75,7 @@ class FlatContainer extends Container
     }
 
     /**
-     * @param string $key
+     * @param string $key The key to access, supports delimiter based child access (e.g. `parent.child.node`)
      *
      * @return bool
      */
@@ -88,7 +88,7 @@ class FlatContainer extends Container
     }
 
     /**
-     * @param string $key
+     * @param string $key The key to access, supports delimiter based child access (e.g. `parent.child.node`)
      *
      * @return mixed|null
      */
@@ -102,7 +102,7 @@ class FlatContainer extends Container
     }
 
     /**
-     * @param string $key
+     * @param string $key The key to access, supports delimiter based child access (e.g. `parent.child.node`)
      * @param mixed  $value
      *
      * @return ContainerInterface
@@ -141,7 +141,7 @@ class FlatContainer extends Container
     }
 
     /**
-     * @param string $key
+     * @param string $key The key to access, supports delimiter based child access (e.g. `parent.child.node`)
      *
      * @return ContainerInterface
      */
