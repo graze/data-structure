@@ -6,6 +6,14 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 class FlatContainerTest extends TestCase
 {
+    public function testDelimiter()
+    {
+        $cont = new FlatContainer();
+        $this->assertEquals('.', $cont->getDelimiter());
+        $this->assertSame($cont, $cont->setDelimiter('->'));
+        $this->assertEquals('->', $cont->getDelimiter());
+    }
+
     /**
      * @dataProvider getData
      *

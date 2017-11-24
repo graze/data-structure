@@ -13,6 +13,22 @@
 
 namespace Graze\DataStructure\Container;
 
+/**
+ * ImmutableFlatContainer can access data in child arrays and containers, any modification is immutable
+ * (for the top level) but can modify child containers
+ *
+ * ```php
+ * $container = new ImmutableFlatContainer(['a'=>'b']);
+ * $new = $container->set('c', 'd');
+ * $container->getAll();
+ * // ['a' => 'b']
+ * $new->getAll()
+ * // ['a' => 'b', 'c' => 'd']
+ *
+ * $child = new Container(['a' => 'b']);
+ * $container = new ImmutableFlatContainer([
+ * ```
+ */
 class ImmutableFlatContainer extends FlatContainer
 {
     /**

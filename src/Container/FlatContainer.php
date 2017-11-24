@@ -14,6 +14,7 @@
 namespace Graze\DataStructure\Container;
 
 use ArrayAccess;
+use RecursiveArrayIterator;
 
 /**
  * FlatContainer accepts key access using a delimiter to represent child arrays
@@ -26,21 +27,24 @@ use ArrayAccess;
  * $container->get('second.child')
  * // 1
  *
- * ($container->has('first.child'))
+ * $container->has('first.child')
  * // false
  *
  * $container->set('second.third', 3);
  * $container->getAll();
- * // ['first' => 'value', 'second' => ['child' => 1, 'other' => 2, 'third'=> 3]]
+ * // ['first' => 'value', 'second' => ['child' => 1, 'other' => 2, 'third' => 3]]
  *
  * $container->remove('second.other');
  * $container->getAll();
- * // ['first' => 'value', 'second' => ['child' => 1, 'third'=> 3]]
+ * // ['first' => 'value', 'second' => ['child' => 1, 'third' => 3]]
  * ```
  */
 class FlatContainer extends Container
 {
-    const DELIMITER = '.';
+    const DEFAULT_DELIMITER = '.';
+
+    /** @var string */
+    protected $delimiter = self::DEFAULT_DELIMITER;
 
     /**
      * @param string $key
@@ -51,7 +55,7 @@ class FlatContainer extends Container
     {
         $top = $this->params;
 
-        foreach (explode(static::DELIMITER, $key) as $node) {
+        foreach (explode($this->delimiter, $key) as $node) {
             if (!isset($top[$node])) {
                 return null;
             }
@@ -67,8 +71,8 @@ class FlatContainer extends Container
      */
     private function splitToLast($key)
     {
-        $split = explode(static::DELIMITER, $key);
-        $key = implode(static::DELIMITER, array_slice($split, 0, -1));
+        $split = explode($this->delimiter, $key);
+        $key = implode($this->delimiter, array_slice($split, 0, -1));
         $last = end($split);
 
         return [$key, $last];
@@ -81,7 +85,7 @@ class FlatContainer extends Container
      */
     public function has($key)
     {
-        if (mb_strpos($key, static::DELIMITER) !== false) {
+        if (mb_strpos($key, $this->delimiter) !== false) {
             return (!is_null($this->getChild($key)));
         }
         return parent::has($key);
@@ -94,7 +98,7 @@ class FlatContainer extends Container
      */
     public function get($key)
     {
-        if (mb_strpos($key, static::DELIMITER) !== false) {
+        if (mb_strpos($key, $this->delimiter) !== false) {
             return $this->getChild($key);
         }
 
@@ -120,7 +124,7 @@ class FlatContainer extends Container
      */
     protected function doSet($key, $value)
     {
-        if (mb_strpos($key, static::DELIMITER) !== false) {
+        if (mb_strpos($key, $this->delimiter) !== false) {
             list($key, $last) = $this->splitToLast($key);
 
             $top = $this->get($key);
@@ -157,7 +161,7 @@ class FlatContainer extends Container
      */
     protected function doRemove($key)
     {
-        if (mb_strpos($key, static::DELIMITER) !== false) {
+        if (mb_strpos($key, $this->delimiter) !== false) {
             list($key, $last) = $this->splitToLast($key);
 
             $top = $this->get($key);
@@ -175,5 +179,24 @@ class FlatContainer extends Container
         }
 
         return parent::remove($key);
+    }
+
+    /**
+     * @param string $delimiter
+     *
+     * @return FlatContainer
+     */
+    public function setDelimiter($delimiter)
+    {
+        $this->delimiter = $delimiter;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelimiter()
+    {
+        return $this->delimiter;
     }
 }

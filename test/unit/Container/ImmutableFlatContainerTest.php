@@ -167,4 +167,22 @@ class ImmutableFlatContainerTest extends TestCase
         $cont['baz'] = 'd';
         $this->assertEquals('c', $cont->get('baz'));
     }
+
+    public function testImmutableChildren()
+    {
+        $cont = new ImmutableFlatContainer(
+            ['a' => 'b', 'c' => new Container(['d' => 'e', 'f' => new Container(['g' => 'h'])])]
+        );
+
+        $output = $cont->set('c.f.g', 'i');
+
+        $this->assertEquals(
+            ['a' => 'b', 'c' => new Container(['d' => 'e', 'f' => new Container(['g' => 'h'])])],
+            $cont->getAll()
+        );
+        $this->assertEquals(
+            ['a' => 'b', 'c' => new Container(['d' => 'e', 'f' => new Container(['g' => 'i'])])],
+            $output->getAll()
+        );
+    }
 }

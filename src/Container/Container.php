@@ -193,4 +193,21 @@ class Container implements ContainerInterface, Serializable
     {
         $this->remove($offset);
     }
+
+    /**
+     * Clone all child objects (in the array tree)
+     */
+    public function __clone()
+    {
+        $clone = function ($item) use (&$clone) {
+            if (is_object($item)) {
+                return clone $item;
+            } elseif (is_array($item)) {
+                return array_map($clone, $item);
+            }
+            return $item;
+        };
+
+        $this->params = array_map($clone, $this->params);
+    }
 }
