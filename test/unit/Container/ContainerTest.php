@@ -5,6 +5,7 @@ namespace Graze\DataStructure\Container;
 use ArrayAccess;
 use PHPUnit_Framework_TestCase as TestCase;
 use Serializable;
+use Traversable;
 
 class ContainerTest extends TestCase
 {
@@ -76,6 +77,26 @@ class ContainerTest extends TestCase
         $cont = new Container();
 
         $this->assertInstanceOf('Iterator', $cont->getIterator());
+        $this->assertInstanceOf(Traversable::class, $cont);
+    }
+
+    public function testIteration()
+    {
+        $cont = new Container(['a' => 'b', 'c' => 'd']);
+
+        foreach ($cont as $key => $value) {
+            switch ($key) {
+                case 'a':
+                    $this->assertEquals('b', $value);
+                    break;
+                case 'c':
+                    $this->assertEquals('d', $value);
+                    break;
+                default:
+                    $this->fail('unknown key, expecting `a` or `c`');
+                    break;
+            }
+        }
     }
 
     public function testHasIsTrue()
