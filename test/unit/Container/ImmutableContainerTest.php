@@ -167,4 +167,19 @@ class ImmutableContainerTest extends TestCase
         $cont['baz'] = 'd';
         $this->assertEquals('c', $cont->get('baz'));
     }
+
+    public function testExtractedChildDoesNotModifyParent()
+    {
+        $cont = new ImmutableContainer(['a' => 'b', 'c' => new Container(['d' => 'e'])]);
+
+        $child = $cont->get('c');
+
+        $child->set('d', 'f');
+
+        $this->assertEquals(
+            ['a' => 'b', 'c' => new Container(['d' => 'e'])],
+            $cont->getAll(),
+            'modifying a child object should not modify the parent container'
+        );
+    }
 }

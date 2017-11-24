@@ -185,4 +185,32 @@ class ImmutableFlatContainerTest extends TestCase
             $output->getAll()
         );
     }
+
+    public function testImmutableChildReferences()
+    {
+        $child = new Container(['a' => 'b', 'c' => 'd']);
+        $container = new ImmutableFlatContainer(['child' => $child]);
+
+        $child->set('c', 'e');
+
+        $this->assertEquals(
+            ['child' => new Container(['a' => 'b', 'c' => 'd'])],
+            $container->getAll()
+        );
+    }
+
+    public function testExtractedChildDoesNotModifyParent()
+    {
+        $cont = new ImmutableFlatContainer(['a' => 'b', 'c' => new Container(['d' => 'e'])]);
+
+        $child = $cont->get('c');
+
+        $child->set('d', 'f');
+
+        $this->assertEquals(
+            ['a' => 'b', 'c' => new Container(['d' => 'e'])],
+            $cont->getAll(),
+            'modifying a child object should not modify the parent container'
+        );
+    }
 }

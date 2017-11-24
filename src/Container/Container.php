@@ -195,19 +195,25 @@ class Container implements ContainerInterface, Serializable
     }
 
     /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    protected function recursiveClone($item)
+    {
+        if (is_object($item)) {
+            return clone $item;
+        } elseif (is_array($item)) {
+            return array_map([$this, 'recursiveClone'], $item);
+        }
+        return $item;
+    }
+
+    /**
      * Clone all child objects (in the array tree)
      */
     public function __clone()
     {
-        $clone = function ($item) use (&$clone) {
-            if (is_object($item)) {
-                return clone $item;
-            } elseif (is_array($item)) {
-                return array_map($clone, $item);
-            }
-            return $item;
-        };
-
-        $this->params = array_map($clone, $this->params);
+        $this->params = array_map([$this, 'recursiveClone'], $this->params);
     }
 }

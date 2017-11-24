@@ -42,6 +42,18 @@ class ImmutableContainer extends Container
     }
 
     /**
+     * Clone the returned value to ensure any modification does not change our version
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return $this->recursiveClone(parent::get($key));
+    }
+
+    /**
      * @param string $key
      *
      * @return ContainerInterface
@@ -66,7 +78,7 @@ class ImmutableContainer extends Container
      */
     protected function setParameter($key, $value)
     {
-        return parent::set($key, $value);
+        return parent::set($key, $this->recursiveClone($value));
     }
 
     /**

@@ -39,7 +39,7 @@ class ImmutableFlatContainer extends FlatContainer
         parent::__construct([]);
 
         foreach ($params as $key => $value) {
-            $this->doSet($key, $value);
+            $this->doSet($key, $this->recursiveClone($value));
         }
     }
 
@@ -52,9 +52,21 @@ class ImmutableFlatContainer extends FlatContainer
     public function set($key, $value)
     {
         $cont = clone $this;
-        $cont->doSet($key, $value);
+        $cont->doSet($key, $this->recursiveClone($value));
 
         return $cont;
+    }
+
+    /**
+     * Clone children to ensure any modifications can not change this objects contents
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return $this->recursiveClone(parent::get($key));
     }
 
     /**
