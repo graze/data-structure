@@ -2,7 +2,7 @@
 /*
  * This file is part of Graze DataStructure
  *
- * Copyright (c) 2014 Nature Delivered Ltd. <http://graze.com>
+ * Copyright (c) 2017 Nature Delivered Ltd. <http://graze.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,23 @@
 
 namespace Graze\DataStructure\Container;
 
-class ImmutableContainer extends Container
+/**
+ * ImmutableFlatContainer can access data in child arrays and containers, any modification is immutable
+ * (for the top level) but can modify child containers
+ *
+ * ```php
+ * $container = new ImmutableFlatContainer(['a'=>'b']);
+ * $new = $container->set('c', 'd');
+ * $container->getAll();
+ * // ['a' => 'b']
+ * $new->getAll()
+ * // ['a' => 'b', 'c' => 'd']
+ *
+ * $child = new Container(['a' => 'b']);
+ * $container = new ImmutableFlatContainer([
+ * ```
+ */
+class ImmutableFlatContainer extends FlatContainer
 {
     /**
      * @param array $params
@@ -23,7 +39,7 @@ class ImmutableContainer extends Container
         parent::__construct([]);
 
         foreach ($params as $key => $value) {
-            $this->setParameter($key, $value);
+            $this->doSet($key, $this->recursiveClone($value));
         }
     }
 
@@ -36,13 +52,13 @@ class ImmutableContainer extends Container
     public function set($key, $value)
     {
         $cont = clone $this;
-        $cont->setParameter($key, $value);
+        $cont->doSet($key, $this->recursiveClone($value));
 
         return $cont;
     }
 
     /**
-     * Clone the returned value to ensure any modification does not change our version
+     * Clone children to ensure any modifications can not change this objects contents
      *
      * @param string $key
      *
@@ -62,32 +78,11 @@ class ImmutableContainer extends Container
     {
         if ($this->has($key)) {
             $cont = clone $this;
-            $cont->removeParameter($key);
+            $cont->doRemove($key);
 
             return $cont;
         }
 
         return $this;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed  $value
-     *
-     * @return ContainerInterface
-     */
-    protected function setParameter($key, $value)
-    {
-        return parent::set($key, $this->recursiveClone($value));
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return ContainerInterface
-     */
-    protected function removeParameter($key)
-    {
-        return parent::remove($key);
     }
 }

@@ -2,7 +2,10 @@
 
 namespace Graze\DataStructure\Container;
 
+use ArrayAccess;
 use PHPUnit_Framework_TestCase as TestCase;
+use Serializable;
+use Traversable;
 
 class ContainerTest extends TestCase
 {
@@ -10,8 +13,9 @@ class ContainerTest extends TestCase
     {
         $cont = new Container();
 
-        $this->assertInstanceOf('Graze\DataStructure\Container\ContainerInterface', $cont);
-        $this->assertInstanceOf('Serializable', $cont);
+        $this->assertInstanceOf(ContainerInterface::class, $cont);
+        $this->assertInstanceOf(Serializable::class, $cont);
+        $this->assertInstanceOf(ArrayAccess::class, $cont);
     }
 
     public function testConstructor()
@@ -73,6 +77,26 @@ class ContainerTest extends TestCase
         $cont = new Container();
 
         $this->assertInstanceOf('Iterator', $cont->getIterator());
+        $this->assertInstanceOf(Traversable::class, $cont);
+    }
+
+    public function testIteration()
+    {
+        $cont = new Container(['a' => 'b', 'c' => 'd']);
+
+        foreach ($cont as $key => $value) {
+            switch ($key) {
+                case 'a':
+                    $this->assertEquals('b', $value);
+                    break;
+                case 'c':
+                    $this->assertEquals('d', $value);
+                    break;
+                default:
+                    $this->fail('unknown key, expecting `a` or `c`');
+                    break;
+            }
+        }
     }
 
     public function testHasIsTrue()
@@ -129,7 +153,10 @@ class ContainerTest extends TestCase
     {
         $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
-        $this->assertEquals('C:39:"Graze\DataStructure\Container\Container":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}', serialize($cont));
+        $this->assertEquals(
+            'C:39:"Graze\DataStructure\Container\Container":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}',
+            serialize($cont)
+        );
     }
 
     public function testUnserialize()
@@ -139,33 +166,48 @@ class ContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
     }
 
-    public function testArrayAccessGet()
+    public function testArrayGet()
     {
         $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
         $this->assertEquals('a', $cont['foo']);
     }
 
-    public function testArrayAccessIsset()
+    public function testArraySet()
     {
-        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+        $cont = new Container(['foo' => 'a', 'bar' => 'b']);
+        $cont['baz'] = 'c';
 
-        $this->assertTrue(isset($cont['bar']));
+        $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
     }
 
-    public function testArrayAccessUnset()
+    public function testArrayHasIsTrue()
     {
         $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
+        $this->assertTrue(isset($cont['foo']));
+    }
+
+    public function testArrayHasIsFalse()
+    {
+        $cont = new Container(['FOO' => 'a', 'bar' => 'b', 'baz' => 'c']);
+
+        $this->assertFalse(isset($cont['foo']));
+    }
+
+    public function testArrayRemove()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
+        unset($cont['bar']);
+
+        $this->assertEquals(['foo' => 'a', 'baz' => 'c'], $cont->getAll());
+    }
+
+    public function testArrayRemoveMissing()
+    {
+        $cont = new Container(['foo' => 'a', 'bar' => 'b']);
         unset($cont['baz']);
-        $this->assertFalse($cont->has('baz'));
-    }
 
-    public function testArrayAccessSet()
-    {
-        $cont = new Container(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
-
-        $cont['baz'] = 'd';
-        $this->assertEquals('d', $cont->get('baz'));
+        $this->assertEquals(['foo' => 'a', 'bar' => 'b'], $cont->getAll());
     }
 }

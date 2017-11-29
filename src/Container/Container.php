@@ -123,7 +123,9 @@ class Container implements ContainerInterface, Serializable
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
+     *
+     * @return string the string representation of the object or null
      */
     public function serialize()
     {
@@ -131,7 +133,11 @@ class Container implements ContainerInterface, Serializable
     }
 
     /**
-     * @param string $data
+     * {@inheritdoc}
+     *
+     * @param string $data The string representation of the object.
+     *
+     * @return void
      */
     public function unserialize($data)
     {
@@ -144,6 +150,7 @@ class Container implements ContainerInterface, Serializable
      * @param mixed $offset An offset to check for.
      *
      * @return bool true on success or false on failure.
+     *              The return value will be casted to boolean if non-boolean was returned.
      */
     public function offsetExists($offset)
     {
@@ -185,5 +192,28 @@ class Container implements ContainerInterface, Serializable
     public function offsetUnset($offset)
     {
         $this->remove($offset);
+    }
+
+    /**
+     * @param mixed $item
+     *
+     * @return mixed
+     */
+    protected function recursiveClone($item)
+    {
+        if (is_object($item)) {
+            return clone $item;
+        } elseif (is_array($item)) {
+            return array_map([$this, 'recursiveClone'], $item);
+        }
+        return $item;
+    }
+
+    /**
+     * Clone all child objects (in the array tree)
+     */
+    public function __clone()
+    {
+        $this->params = array_map([$this, 'recursiveClone'], $this->params);
     }
 }

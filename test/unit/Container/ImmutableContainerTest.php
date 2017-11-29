@@ -2,7 +2,6 @@
 
 namespace Graze\DataStructure\Container;
 
-use Graze\Sort as s;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class ImmutableContainerTest extends TestCase
@@ -31,15 +30,17 @@ class ImmutableContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b'], $cont->getAll());
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $result->getAll());
         $this->assertNotSame($cont, $result);
-        $this->assertInstanceOf('Graze\DataStructure\Container\ImmutableContainer', $result);
+        $this->assertInstanceOf(ImmutableContainer::class, $result);
     }
 
+    /**
+     * @expectedException \Graze\DataStructure\Exception\RegisteredKeyException
+     */
     public function testAddDuplicate()
     {
         $cont = new ImmutableContainer(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
-        $this->setExpectedException('Graze\DataStructure\Exception\RegisteredKeyException');
-        $result = $cont->add('baz', 'd');
+        $cont->add('baz', 'd');
     }
 
     public function testForAll()
@@ -98,7 +99,7 @@ class ImmutableContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
         $this->assertEquals(['foo' => 'a', 'baz' => 'c'], $result->getAll());
         $this->assertNotSame($cont, $result);
-        $this->assertInstanceOf('Graze\DataStructure\Container\ImmutableContainer', $result);
+        $this->assertInstanceOf(ImmutableContainer::class, $result);
     }
 
     public function testRemoveMissing()
@@ -109,7 +110,7 @@ class ImmutableContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b'], $cont->getAll());
         $this->assertEquals(['foo' => 'a', 'bar' => 'b'], $result->getAll());
         $this->assertSame($cont, $result);
-        $this->assertInstanceOf('Graze\DataStructure\Container\ImmutableContainer', $result);
+        $this->assertInstanceOf(ImmutableContainer::class, $result);
     }
 
     public function testSet()
@@ -120,7 +121,7 @@ class ImmutableContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b'], $cont->getAll());
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $result->getAll());
         $this->assertNotSame($cont, $result);
-        $this->assertInstanceOf('Graze\DataStructure\Container\ImmutableContainer', $result);
+        $this->assertInstanceOf(ImmutableContainer::class, $result);
     }
 
     public function testSetDuplicate()
@@ -131,14 +132,17 @@ class ImmutableContainerTest extends TestCase
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $cont->getAll());
         $this->assertEquals(['foo' => 'a', 'bar' => 'b', 'baz' => 'd'], $result->getAll());
         $this->assertNotSame($cont, $result);
-        $this->assertInstanceOf('Graze\DataStructure\Container\ImmutableContainer', $result);
+        $this->assertInstanceOf(ImmutableContainer::class, $result);
     }
 
     public function testSerialize()
     {
         $cont = new ImmutableContainer(['foo' => 'a', 'bar' => 'b', 'baz' => 'c']);
 
-        $this->assertEquals('C:48:"Graze\DataStructure\Container\ImmutableContainer":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}', serialize($cont));
+        $this->assertEquals(
+            'C:48:"Graze\DataStructure\Container\ImmutableContainer":60:{a:3:{s:3:"foo";s:1:"a";s:3:"bar";s:1:"b";s:3:"baz";s:1:"c";}}',
+            serialize($cont)
+        );
     }
 
     public function testUnserialize()
@@ -162,5 +166,20 @@ class ImmutableContainerTest extends TestCase
 
         $cont['baz'] = 'd';
         $this->assertEquals('c', $cont->get('baz'));
+    }
+
+    public function testExtractedChildDoesNotModifyParent()
+    {
+        $cont = new ImmutableContainer(['a' => 'b', 'c' => new Container(['d' => 'e'])]);
+
+        $child = $cont->get('c');
+
+        $child->set('d', 'f');
+
+        $this->assertEquals(
+            ['a' => 'b', 'c' => new Container(['d' => 'e'])],
+            $cont->getAll(),
+            'modifying a child object should not modify the parent container'
+        );
     }
 }
