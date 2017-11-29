@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * This file is part of Graze DataStructure
  *
  * Copyright (c) 2017 Nature Delivered Ltd. <http://graze.com>
