@@ -21,6 +21,7 @@ env:
 matrix:
   allow_failures:
     - php: nightly
+    - php: 7.2
 
 before_script:
   - travis_retry composer update --no-interaction --prefer-dist $PREFER_LOWEST

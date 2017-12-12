@@ -49,6 +49,7 @@ test-matrix: ## Run the unit tests against multiple targets.
 	${MAKE} IMAGE="php:5.6-alpine" test
 	${MAKE} IMAGE="php:7.0-alpine" test
 	${MAKE} IMAGE="php:7.1-alpine" test
+	${MAKE} IMAGE="php:7.2-alpine" test
 	${MAKE} IMAGE="hhvm/hhvm:latest" test
 
 test-matrix-lowest: ## Run the unit tests against
