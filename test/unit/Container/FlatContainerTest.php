@@ -103,10 +103,12 @@ class FlatContainerTest extends TestCase
      * @param string $key
      * @param mixed  $value
      * @param array  $expected
+     * @param string $delimiter
      */
-    public function testSet(array $base, $key, $value, array $expected)
+    public function testSet(array $base, $key, $value, array $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         $cont->set($key, $value);
 
         $this->assertEquals($expected, $cont->getAll());
@@ -119,10 +121,12 @@ class FlatContainerTest extends TestCase
      * @param string $key
      * @param mixed  $value
      * @param array  $expected
+     * @param string $delimiter
      */
-    public function testArraySet(array $base, $key, $value, array $expected)
+    public function testArraySet(array $base, $key, $value, array $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         $cont[$key] = $value;
 
         $this->assertEquals($expected, $cont->getAll());
@@ -188,6 +192,20 @@ class FlatContainerTest extends TestCase
                 'value',
                 ['child' => new ImmutableContainer(['node' => 'child', 'other' => ['more' => 'value']])],
             ],
+            [
+                ['key' => ['child' => 'one']],
+                'key->second',
+                'value',
+                ['key' => ['child' => 'one', 'second' => 'value']],
+                '->',
+            ],
+            [
+                ['key' => 'node'],
+                'key->second',
+                'value',
+                ['key' => ['second' => 'value']],
+                '->',
+            ],
         ];
     }
 
@@ -197,10 +215,12 @@ class FlatContainerTest extends TestCase
      * @param array  $base
      * @param string $key
      * @param bool   $expected
+     * @param string $delimiter
      */
-    public function testHas(array $base, $key, $expected)
+    public function testHas(array $base, $key, $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         $this->assertEquals($expected, $cont->has($key));
     }
 
@@ -210,10 +230,12 @@ class FlatContainerTest extends TestCase
      * @param array  $base
      * @param string $key
      * @param bool   $expected
+     * @param string $delimiter
      */
-    public function testArrayIsset(array $base, $key, $expected)
+    public function testArrayIsset(array $base, $key, $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         $this->assertEquals($expected, isset($cont[$key]));
     }
 
@@ -259,6 +281,18 @@ class FlatContainerTest extends TestCase
             [
                 ['key' => new Container(['child' => 'value'])], 'key', true,
             ],
+            [
+                ['key' => 'value'], 'key', true, '->',
+            ],
+            [
+                ['key' => ['value']], 'key->value', false, '->',
+            ],
+            [
+                ['key' => ['value']], 'key->0', true, '->',
+            ],
+            [
+                ['key' => ['child' => 'value']], 'key->nope', false, '->',
+            ],
         ];
     }
 
@@ -268,10 +302,12 @@ class FlatContainerTest extends TestCase
      * @param array  $base
      * @param string $key
      * @param array  $expected
+     * @param string $delimiter
      */
-    public function testRemove(array $base, $key, array $expected)
+    public function testRemove(array $base, $key, array $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         $cont->remove($key);
         $this->assertEquals($expected, $cont->getAll());
     }
@@ -282,10 +318,12 @@ class FlatContainerTest extends TestCase
      * @param array  $base
      * @param string $key
      * @param array  $expected
+     * @param string $delimiter
      */
-    public function testArrayUnset(array $base, $key, array $expected)
+    public function testArrayUnset(array $base, $key, array $expected, $delimiter = '.')
     {
         $cont = new FlatContainer($base);
+        $cont->setDelimiter($delimiter);
         unset($cont[$key]);
         $this->assertEquals($expected, $cont->getAll());
     }
@@ -334,6 +372,18 @@ class FlatContainerTest extends TestCase
             ],
             [
                 ['key' => new ImmutableContainer(['child' => 'value'])], 'key.child', ['key' => new ImmutableContainer([])],
+            ],
+            [
+                ['key' => ['child' => 'value']], 'key->child', ['key' => []], '->',
+            ],
+            [
+                ['key' => ['value']], 'key->value', ['key' => ['value']], '->',
+            ],
+            [
+                ['key' => ['value']], 'key->0', ['key' => []], '->',
+            ],
+            [
+                ['key' => ['child' => 'value']], 'key->nope', ['key' => ['child' => 'value']], '->',
             ],
         ];
     }
